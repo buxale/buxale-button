@@ -1,4 +1,6 @@
-# buxale-button
+# Buxale.io checkout button
+
+This is the source for the embettable button. You can use it to initialize the checkout on foreigen pages.
 
 ## Project setup
 ```
