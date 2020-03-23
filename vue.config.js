@@ -3,7 +3,6 @@ module.exports = {
   filenameHashing: false,
   configureWebpack: {
     plugins: [
-
     require('tailwindcss'),
     require('autoprefixer'),
       new webpack.optimize.LimitChunkCountPlugin({
