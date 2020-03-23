@@ -42,6 +42,10 @@ export default {
     api_token: {
       type: String,
       required: true
+    },
+    ref_id: {
+      type: String,
+      required: false
     }
   },
   computed: {
@@ -59,8 +63,12 @@ export default {
   methods: {
     async startSession() {
       let base_url = 'https://app.buxale.io/api/checkout-session?';
+      //let base_url = 'http://buxale.test/api/checkout-session?';
       let AuthStr = 'Bearer '.concat(this.api_token); 
       let url = base_url + 'amount=' + this.amount + '&success_url=' + this.success_url + '&cancel_url=' + this.cancel_url
+      if(this.ref_id) {
+        url =  url + '&ref_id=' + this.ref_id
+      }
 
       let res = await axios.get(url, { headers: { Authorization: AuthStr }})
       this.sessionId = res.data;
