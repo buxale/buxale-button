@@ -9,6 +9,7 @@
 
 <script>
 import {loadStripe} from '@stripe/stripe-js';
+import axios from 'axios';
 
 export default {
   name: 'App',
@@ -26,6 +27,22 @@ export default {
       required: false,
       default: 'teal'
     },
+    amount: {
+      required: true,
+      type: Number
+    },
+    success_url: {
+      type: String,
+      required: true
+    },
+    cancel_url: {
+      type: String,
+      required: true
+    },
+    api_token: {
+      type: String,
+      required: true
+    }
   },
   computed: {
     classes() {
@@ -34,21 +51,23 @@ export default {
       }
     }
   },
-  mounted() {
-    this.startSession()
-  },
   data() {
     return {
       sessionId: null
     }
   },
   methods: {
-    startSession() {
-      console.log('should start session here.');
+    async startSession() {
+      let base_url = 'https://app.buxale.io/api/checkout-session?';
+      let AuthStr = 'Bearer '.concat(this.api_token); 
+      let url = base_url + 'amount=' + this.amount + '&success_url=' + this.success_url + '&cancel_url=' + this.cancel_url
+
+      let res = await axios.get(url, { headers: { Authorization: AuthStr }})
+      this.sessionId = res.data;
     },
     async startCheckout() {
       const stripe = await loadStripe('pk_test_gFWgejrEFQU3q4FeV0GjLatz00yDQ8BagV');
-
+      await this.startSession()
       stripe.redirectToCheckout({
         sessionId: this.sessionId
       }).then(function (result) {
