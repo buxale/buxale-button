@@ -86,7 +86,7 @@ export default {
       // If we're in custom amount mode, use custom amount
       let amount = this.amount
       if(this.customAmount) {
-        amount = this.customAmountInput
+        amount = parseInt(this.customAmountInput);
       }
       let url = base_url + 'amount=' + amount + '&success_url=' + this.success_url + '&cancel_url=' + this.cancel_url
       if(this.ref_id) {
