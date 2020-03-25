@@ -73,6 +73,10 @@ export default {
     ref_id: {
       type: String,
       required: false
+    },
+    voucher_id: {
+      type: String,
+      required: false
     }
   },
   computed: {
@@ -85,12 +89,16 @@ export default {
   },
   data() {
     return {
-      sessionId: null,
+      initial_session_id: null,
       customAmountInput: null
     }
   },
   methods: {
     async startSession() {
+      if(this.initial_session_id) {
+        this.sessionId = this.initial_session_id;
+        return true;
+      }
       let base_url = 'https://app.buxale.io/api/checkout-session?';
       //let base_url = 'http://buxale.test/api/checkout-session?';
       let AuthStr = 'Bearer '.concat(this.api_token); 
@@ -103,6 +111,9 @@ export default {
       let url = base_url + 'amount=' + amount + '&success_url=' + this.success_url + '&cancel_url=' + this.cancel_url
       if(this.ref_id) {
         url =  url + '&ref_id=' + this.ref_id
+      }
+      if(this.voucher_id) {
+        url = url + '&voucher_id=' + this.voucher_id
       }
 
       let res = await axios.get(url, { headers: { Authorization: AuthStr }})
