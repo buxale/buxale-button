@@ -2,7 +2,7 @@
   <div class="p-4">
     <p v-if="title" class="text-md font-bold mb-1">{{ title }}</p>
     <div class="">
-      <div class="mb-4 mr-6" v-if="custom_amount">
+      <div class="mb-4" v-if="custom_amount">
         <div class="mt-1 rounded-md mx-auto">
           <input id="amount" 
       style="min-width: 340px !important;"
