@@ -22,6 +22,9 @@
         </div>
       </button>
     </div>
+    <div  v-if="error" class="bux-pt-2" >
+      <span class="bux-text-red-500">Leider ist ein Fehler aufgetreten. Korrigiere deine Eingaben.</span>
+    </div>
   </div>
 </template>
 
@@ -98,7 +101,8 @@ export default {
   data() {
     return {
       initial_session_id: null,
-      customAmountInput: null
+      customAmountInput: null,
+      error: null
     }
   },
   methods: {
@@ -124,7 +128,9 @@ export default {
         url = url + '&voucher_id=' + this.voucher_id
       }
 
-      let res = await axios.get(url, { headers: { Authorization: AuthStr }})
+      let res = await axios.get(url, { headers: { Authorization: AuthStr }}).catch(() => {
+        this.error = true;
+      });
       this.sessionId = res.data;
     },
     async startCheckout() {
@@ -136,7 +142,7 @@ export default {
         if(result.error && result.error.message) {
           alert(result.error.message);
         }
-      });
+      })
     }
   }
 }
