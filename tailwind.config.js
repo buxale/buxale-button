@@ -1,4 +1,5 @@
 module.exports = {
+  prefix: 'bux-',
   theme: {
     extend: {
         colors: {
